@@ -1,4 +1,5 @@
-const key = require(__dirname + '/api_key_511.js');
+const path = require('path');
+const key = require(path.resolve(__dirname + '/../api_key_511.js'));
 
 const url = require('url');
 const request = require('request');
@@ -8,12 +9,12 @@ const _ = require('lodash');
 module.exports.agencies = (clientReq, clientRes) => {
   console.log('got providers request');
   const endpoint = 'http://services.my511.org/Transit2.0/GetAgencies.aspx';
-  request({url: endpoint, qs: {token: key}}, function(err, apiRes, body) {
+  request({url: endpoint, qs: {token: key}}, (err, apiRes, body) => {
     if (err) {
       console.log(err);
       return;
     }
-    parseString(body, function (err, result) {
+    parseString(body, (err, result) => {
       const agencies = result.RTT.AgencyList[0].Agency.map((route) => {
         return route.$.Name;
       });
@@ -35,7 +36,7 @@ module.exports.lines = (clientReq, clientRes) => {
       console.log(err);
       return;
     }
-    parseString(body, function (err, result) {
+    parseString(body, (err, result) => {
       const lines = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route.map((route) => {
         return route.$;
       });
@@ -72,9 +73,9 @@ module.exports.times = (clientReq, clientRes) => {
           console.log(err);
           return;
         }
-        parseString(body, function(err, result) {
+        parseString(body, (err, result) => {
           const routes = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route;
-          const route = routes.filter(function(route) {
+          const route = routes.filter((route) => {
             return (route.$.Code === routeCode ? true : false);
           })[0];
 
