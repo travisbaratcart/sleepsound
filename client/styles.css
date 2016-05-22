@@ -1,0 +1,171 @@
+h1, h2, h3, h4, h5, p, div {
+  margin: 0;
+  padding: 0;
+  line-height: 150%;
+}
+
+h1 {
+  margin: 20px 0 -5px;
+
+  font-size: 54px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+h4 {
+  margin-bottom: 10px;
+  font-size: 42px;
+}
+
+#modal h4 {
+  margin-bottom: 10px
+}
+
+h5 {
+  margin-bottom: 30px;
+  font-size: 22px;
+}
+
+p, input, select {
+  margin: 5px 5px;
+  border-radius: 2px;
+}
+
+select {
+  /*background-color: black; */
+  /*color: white; */
+  /*-webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 5px;*/
+  text-indent: 8px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 14px;
+}
+
+body {
+  background-color: #333;
+  color: white;
+}
+
+.container {
+  width: 75%;
+  max-width: 950px;
+  text-align: center;
+}
+
+input {
+  color: #333;
+  text-indent: 5px;
+  font-size: 14px;
+}
+
+a.save-route {
+  display: block;
+  padding: 10px;
+  color: white;
+  margin: 20px auto 30px;
+  background-color: orange;
+  width: 150px;
+}
+
+a:hover, a:focus, a:visited {
+  color: white;
+  text-decoration: none
+}
+
+.sound {
+  color: orange;
+}
+
+.alarm {
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 10px;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+.alarm:first-child{
+  margin-top: 5px;
+}
+
+.cache {
+  max-width: 700px;
+  margin: 0 auto;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.on-time, .recommended {
+  color: #1BFF1B;
+}
+
+.delayed {
+  color: red;
+}
+
+.delete {
+  text-align: right;
+}
+
+.route:not(:last-child) {
+  border-bottom: 1px dashed #555;
+}
+
+.latest {
+  border-bottom: 1px solid white;
+}
+
+.routeForm {
+  margin-top: 20px;
+}
+
+.blur {
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}
+
+#modal-overlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#modal {
+  position: absolute;
+  padding: 20px 30px;
+  top: 50%;
+  left: 50%;
+  border: 3px solid #C5C5C5;
+  border-radius: 2px;
+  z-index: 2;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  background-color: #4C4B4B;
+  text-align: center;
+  display: none;
+}
+
+#modal a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: orange;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
