@@ -17,12 +17,24 @@ module.exports = function (grunt) {
             files: ["./client/components/*.js"],
             tasks: ["browserify"]
          }
+      },
+      nodemon: {
+         dev: {
+            script: "./server/app.js"
+         }
+      },
+      concurrent: {
+         dev: ["nodemon", "watch"],
+         options: {logConcurrentOutput: true}
       }
+
    });
 
    grunt.loadNpmTasks("grunt-browserify");
    grunt.loadNpmTasks("grunt-contrib-watch");
+   grunt.loadNpmTasks("grunt-nodemon");
+   grunt.loadNpmTasks("grunt-concurrent");
 
-   grunt.registerTask("default", ["watch"]);
+   grunt.registerTask("default", ["concurrent"]);
    grunt.registerTask("build", ["browserify"]);
 };
