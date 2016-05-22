@@ -1,4 +1,4 @@
-class LineSelect extends React.Component {
+export default class LineSelect extends React.Component {
   constructor(props) {
     super(props);
     this.line = undefined;
@@ -33,5 +33,3 @@ class LineSelect extends React.Component {
     );
   }
 }
-
-window.LineSelect = LineSelect;

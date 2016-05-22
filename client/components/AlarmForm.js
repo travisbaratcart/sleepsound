@@ -1,4 +1,6 @@
-class AlarmForm extends React.Component {
+import RouteForm from './RouteForm.js';
+
+export default class AlarmForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,5 +42,3 @@ class AlarmForm extends React.Component {
     );
   }
 }
-
-window.AlarmForm = AlarmForm;

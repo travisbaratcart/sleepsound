@@ -7,3 +7,6 @@ client/lib
 
 # added by GitSavvy
 /node_modules/
+
+# added by GitSavvy
+/client/dist/

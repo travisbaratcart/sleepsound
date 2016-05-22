@@ -1,4 +1,4 @@
-class AlarmDisplay extends React.Component {
+export default class AlarmDisplay extends React.Component {
   constructor(props) {
     super(props);
     this.adjustAllRoutes();
@@ -110,5 +110,3 @@ class AlarmDisplay extends React.Component {
       </div>);
   }
 }
-
-window.AlarmDisplay = AlarmDisplay;

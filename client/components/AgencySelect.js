@@ -1,4 +1,4 @@
-class AgencySelect extends React.Component {
+export default class AgencySelect extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -19,5 +19,3 @@ class AgencySelect extends React.Component {
     );
   }
 }
-
-window.AgencySelect = AgencySelect;

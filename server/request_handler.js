@@ -1,3 +1,4 @@
+'use strict'
 const path = require('path');
 const key = require(path.resolve(__dirname + '/../api_key_511.js'));
 
@@ -64,9 +65,14 @@ module.exports.times = (clientReq, clientRes) => {
       return;
     }
     parseString(body,(err, result) => {
-      const firstStopCode = result.RTT.AgencyList[0].Agency[0]
-      .RouteList[0].Route[0].RouteDirectionList[0].RouteDirection[0]
-      .StopList[0].Stop[0].$.StopCode;
+      let firstStopCode;
+      switch (agency) {
+        case 'SF-MUNI':
+        firstStopCode = result.RTT.AgencyList[0].Agency[0]
+        .RouteList[0].Route[0].RouteDirectionList[0].RouteDirection[0]
+        .StopList[0].Stop[0].$.StopCode;
+      }
+
       // then find times for first stop on the line
       request({url: timesEndpoint, qs: {token: key, stopCode: firstStopCode}}, (err, apiRes, body) => {
         if (err) {

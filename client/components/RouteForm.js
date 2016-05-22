@@ -1,4 +1,7 @@
-class RouteForm extends React.Component {
+import AgencySelect from './AgencySelect.js';
+import LineSelect from './LineSelect.js';
+
+export default class RouteForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -62,5 +65,3 @@ class RouteForm extends React.Component {
     );
   }
 }
-
-window.RouteForm = RouteForm;
