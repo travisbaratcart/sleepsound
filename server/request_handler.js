@@ -1,20 +1,20 @@
-var key = require(__dirname + '/api_key_511.js');
+const key = require(__dirname + '/api_key_511.js');
 
-var url = require('url');
-var request = require('request');
-var parseString = require('xml2js').parseString;
-var _ = require('lodash');
+const url = require('url');
+const request = require('request');
+const parseString = require('xml2js').parseString;
+const _ = require('lodash');
 
-module.exports.agencies = function(clientReq, clientRes) {
+module.exports.agencies = (clientReq, clientRes) => {
   console.log('got providers request');
-  var endpoint = 'http://services.my511.org/Transit2.0/GetAgencies.aspx';
+  const endpoint = 'http://services.my511.org/Transit2.0/GetAgencies.aspx';
   request({url: endpoint, qs: {token: key}}, function(err, apiRes, body) {
     if (err) {
       console.log(err);
       return;
     }
     parseString(body, function (err, result) {
-      var agencies = result.RTT.AgencyList[0].Agency.map(function(route) {
+      const agencies = result.RTT.AgencyList[0].Agency.map((route) => {
         return route.$.Name;
       });
       clientRes.send(agencies);
@@ -22,21 +22,21 @@ module.exports.agencies = function(clientReq, clientRes) {
   });
 };
 
-module.exports.lines = function(clientReq, clientRes) {
+module.exports.lines = (clientReq, clientRes) => {
   console.log('got lines request');
-  var endpoint = 'http://services.my511.org/Transit2.0/GetRoutesForAgency.aspx';
-  var urlParts = url.parse(clientReq.url, true);
-  var agencyName = urlParts.query.agency;
+  const endpoint = 'http://services.my511.org/Transit2.0/GetRoutesForAgency.aspx';
+  const urlParts = url.parse(clientReq.url, true);
+  const agencyName = urlParts.query.agency;
 
   console.log(agencyName);
 
-  request({url: endpoint, qs: {token: key, agencyName: agencyName}}, function(err, apiRes, body) {
+  request({url: endpoint, qs: {token: key, agencyName: agencyName}}, (err, apiRes, body) => {
     if (err) {
       console.log(err);
       return;
     }
     parseString(body, function (err, result) {
-      var lines = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route.map(function(route) {
+      const lines = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route.map((route) => {
         return route.$;
       });
       clientRes.send(lines);
@@ -44,41 +44,41 @@ module.exports.lines = function(clientReq, clientRes) {
   });
 };
 
-module.exports.times = function(clientReq, clientRes) {
+module.exports.times = (clientReq, clientRes) => {
   console.log('got stops request');
   // determine routeidf by parsing querystring
-  var stopsEndpoint = 'http://services.my511.org/Transit2.0/GetStopsForRoute.aspx';
-  var timesEndpoint = 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx';
-  var urlParts = url.parse(clientReq.url, true);
-  var query = urlParts.query;
-  var agency = query.agency;
-  var routeCode = query.route;
-  var direction = query.direction;
-  var routeIDF = agency + '~' + routeCode + '~' + direction;
+  const stopsEndpoint = 'http://services.my511.org/Transit2.0/GetStopsForRoute.aspx';
+  const timesEndpoint = 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx';
+  const urlParts = url.parse(clientReq.url, true);
+  const query = urlParts.query;
+  const agency = query.agency;
+  const routeCode = query.route;
+  const direction = query.direction;
+  const routeIDF = agency + '~' + routeCode + '~' + direction;
 
   // get list of stops for routeidf
-  request({url: stopsEndpoint, qs: {token: key, routeIDF: routeIDF}}, function(err, apiRes, body) {
+  request({url: stopsEndpoint, qs: {token: key, routeIDF: routeIDF}}, (err, apiRes, body) => {
     if (err) {
       console.log(err);
       return;
     }
-    parseString(body, function (err, result) {
-      var firstStopCode = result.RTT.AgencyList[0].Agency[0]
+    parseString(body,(err, result) => {
+      const firstStopCode = result.RTT.AgencyList[0].Agency[0]
       .RouteList[0].Route[0].RouteDirectionList[0].RouteDirection[0]
       .StopList[0].Stop[0].$.StopCode;
       // then find times for first stop on the line
-      request({url: timesEndpoint, qs: {token: key, stopCode: firstStopCode}}, function(err, apiRes, body) {
+      request({url: timesEndpoint, qs: {token: key, stopCode: firstStopCode}}, (err, apiRes, body) => {
         if (err) {
           console.log(err);
           return;
         }
         parseString(body, function(err, result) {
-          var routes = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route;
-          var route = routes.filter(function(route) {
+          const routes = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route;
+          const route = routes.filter(function(route) {
             return (route.$.Code === routeCode ? true : false);
           })[0];
 
-          var times = route.RouteDirectionList[0].RouteDirection[0]
+          const times = route.RouteDirectionList[0].RouteDirection[0]
           .StopList[0].Stop[0].DepartureTimeList[0].DepartureTime;
           clientRes.send(times);
         });
