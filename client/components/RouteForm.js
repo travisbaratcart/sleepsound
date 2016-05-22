@@ -1,34 +1,39 @@
-import AgencySelect from './AgencySelect.js';
-import LineSelect from './LineSelect.js';
-
 export default class RouteForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hasAgencies: false,
-      hasLines: false
+      lines: null
     };
 
-    var form = this;
-    $.get('http://127.0.0.1:3000/agencies', function(data) {
-      form.agencies = data;
-      form.setState({'hasAgencies': true});
-    });
+    this.getLines('SF-MUNI');
+
+    this.agency = 'SF-MUNI';
+    this.direction = 'Inbound';
   }
 
   getLines(agency) {
-    var form = this;
-    form.agency = agency;
-    $.get('http://127.0.0.1:3000/lines', {agency: agency}, function(data) {
-      form.lines = data;
-      form.setState({hasLines: true});
+    const form = this;
+    $.get('http://127.0.0.1:3000/lines', {agency: agency}, function(lines) {
+      form.setState({lines});
+      form.line = lines[0].Code;
+      form.updateRoute();
     });
   }
 
-  setLine(line, direction) {
-    this.line = line;
-    this.direction = direction;
+  updateAgency(event) {
+    const agency = event.target.value;
+    this.agency = agency;
+    this.getLines(agency);
+  }
+
+  setLine(event) {
+    this.line = event.target.value;
+    this.updateRoute();
+  }
+
+  setDirection(event) {
+    this.direction = event.target.value;
     this.updateRoute();
   }
 
@@ -48,20 +53,43 @@ export default class RouteForm extends React.Component {
     var adjustedDate = Date.now() - date.getTimezoneOffset() * 60 * 1000;
     var startTime = (new Date(adjustedDate)).toISOString().slice(0, 16);
     // "2016-04-05T11:45"
-    console.log(startTime);
     document.getElementById("timeset" + this.props.index).defaultValue = startTime;
   }
 
 
   render() {
+    let lineSelect;
+    if (this.state.lines) {
+      lineSelect = (
+        <select onChange={this.setLine.bind(this)}>
+        {this.state.lines.map((line) => {return (<option value={line.Code}>{line.Name}</option>);})}
+        </select>
+        );
+    }
+
+    let directionSelect
+    if (this.state.lines) {
+      directionSelect = (
+        <select onChange={this.setLine.bind(this)}>
+        <option value="Inbound">Inbound</option>
+        <option value="Outbound">Outbound</option>
+        </select>
+      );
+    }
+
+
     return (
       <div className="routeForm">
-        <p>How would you get to work?</p>
-        {this.state.hasAgencies ? <AgencySelect agencies={this.agencies} onUserInput={this.getLines.bind(this)}/> : null}
-        {this.state.hasLines ? <LineSelect lines={this.lines} onUserInput={this.setLine.bind(this)} /> : null}
-        <p>What time would you ideally wake up?</p>
-        <input type="datetime-local" min="T" id={'timeset' + this.props.index}  onChange={this.setTime.bind(this)} />
+      <p>How would you get to work?</p>
+      <select onChange={this.updateAgency.bind(this)}>
+      <option value="SF-MUNI">MUNI</option>
+      <option value="BART">BART</option>
+      </select>
+      {lineSelect}
+      {directionSelect}
+      <p>What time would you ideally wake up?</p>
+      <input type="datetime-local" min="T" id={'timeset' + this.props.index}  onChange={this.setTime.bind(this)} />
       </div>
-    );
+      );
   }
 }

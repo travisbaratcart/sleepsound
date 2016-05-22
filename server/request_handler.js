@@ -8,7 +8,6 @@ const parseString = require('xml2js').parseString;
 const _ = require('lodash');
 
 module.exports.agencies = (clientReq, clientRes) => {
-  console.log('got providers request');
   const endpoint = 'http://services.my511.org/Transit2.0/GetAgencies.aspx';
   request({url: endpoint, qs: {token: key}}, (err, apiRes, body) => {
     if (err) {
@@ -25,12 +24,9 @@ module.exports.agencies = (clientReq, clientRes) => {
 };
 
 module.exports.lines = (clientReq, clientRes) => {
-  console.log('got lines request');
   const endpoint = 'http://services.my511.org/Transit2.0/GetRoutesForAgency.aspx';
   const urlParts = url.parse(clientReq.url, true);
   const agencyName = urlParts.query.agency;
-
-  console.log(agencyName);
 
   request({url: endpoint, qs: {token: key, agencyName: agencyName}}, (err, apiRes, body) => {
     if (err) {
@@ -47,7 +43,6 @@ module.exports.lines = (clientReq, clientRes) => {
 };
 
 module.exports.times = (clientReq, clientRes) => {
-  console.log('got stops request');
   // determine routeidf by parsing querystring
   const stopsEndpoint = 'http://services.my511.org/Transit2.0/GetStopsForRoute.aspx';
   const timesEndpoint = 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx';
@@ -66,11 +61,15 @@ module.exports.times = (clientReq, clientRes) => {
     }
     parseString(body,(err, result) => {
       let firstStopCode;
-      switch (agency) {
-        case 'SF-MUNI':
+      if (agency === 'BART') {
+        firstStopCode = result.RTT.AgencyList[0].Agency[0]
+        .RouteList[0].Route[0].StopList[0].Stop[0].$.StopCode;
+      } else if (agency === 'SF-MUNI') {
         firstStopCode = result.RTT.AgencyList[0].Agency[0]
         .RouteList[0].Route[0].RouteDirectionList[0].RouteDirection[0]
         .StopList[0].Stop[0].$.StopCode;
+      } else {
+        return clientRes.status(400).end();
       }
 
       // then find times for first stop on the line
@@ -85,8 +84,14 @@ module.exports.times = (clientReq, clientRes) => {
             return (route.$.Code === routeCode ? true : false);
           })[0];
 
-          const times = route.RouteDirectionList[0].RouteDirection[0]
-          .StopList[0].Stop[0].DepartureTimeList[0].DepartureTime;
+          let times;
+          if (agency === 'BART') {
+            times = route.StopList[0].Stop[0].DepartureTimeList[0].DepartureTime;
+          } else if (agency === 'SF-MUNI') {
+            times = route.RouteDirectionList[0].RouteDirection[0]
+            .StopList[0].Stop[0].DepartureTimeList[0].DepartureTime;
+          }
+
           clientRes.send(times);
         });
       });

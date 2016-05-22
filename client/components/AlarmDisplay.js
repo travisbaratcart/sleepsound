@@ -40,7 +40,6 @@ export default class AlarmDisplay extends React.Component {
     clearInterval(this.alarmTimeout);
 
     this.alarmTimeout = setTimeout(function() {
-      console.log('test');
       this.triggerAlarm();
     }.bind(this), timeTillAlarm);
   }
@@ -57,7 +56,6 @@ export default class AlarmDisplay extends React.Component {
 
     $.get(url, params, function(times) {
       var waits = []
-      console.log('times: ' + times);
       for (var i = 1; i < times.length; i++) {
         waits.push(Number(times[i]) - Number(times[i - 1]));
       }
@@ -87,7 +85,6 @@ export default class AlarmDisplay extends React.Component {
   }
 
   deleteAlarm() {
-    console.log(this.props.index);
     this.props.deleteAlarm(this.props.index);
   }
 
