@@ -12,6 +12,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.set('view engine', 'ejs');
+app.set('views', clientPath);
 
 const requestHandler = require(__dirname + '/request_handler.js');
 
@@ -21,9 +23,9 @@ app.get('/times', requestHandler.times);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.render('index');
 });
 
-app.listen(3000, () => {
-  console.log('App listening on port 3000!');
+app.listen(8080, () => {
+  console.log('App listening on port 8080!');
 });

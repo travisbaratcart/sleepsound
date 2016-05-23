@@ -49,12 +49,11 @@ export default class AlarmDisplay extends React.Component {
   }
 
   adjustRoute(route) {
-    var url = 'http://127.0.0.1:3000/times';
     var params = {agency: route.agency, route: route.line, direction: route.direction};
 
     var alarm = this;
 
-    $.get(url, params, function(times) {
+    $.get('/times', params, function(times) {
       var waits = []
       for (var i = 1; i < times.length; i++) {
         waits.push(Number(times[i]) - Number(times[i - 1]));

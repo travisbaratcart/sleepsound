@@ -14,7 +14,7 @@ export default class RouteForm extends React.Component {
 
   getLines(agency) {
     const form = this;
-    $.get('http://127.0.0.1:3000/lines', {agency: agency}, function(lines) {
+    $.get('/lines', {agency: agency}, function(lines) {
       form.setState({lines});
       form.line = lines[0].Code;
       form.updateRoute();
