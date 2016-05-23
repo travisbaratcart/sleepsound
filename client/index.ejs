@@ -1,0 +1,29 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sleep<span class="sound">Sound<i class="fa fa-moon-o"></i></span></h1>
+    <h2>The Bay-Area smart commuter alarm</h2>
+    <div id="app"></div>
+  </div>
+  <div id="modal-overlay"></div>
+  <div id="modal">
+    <h4>Wake Up!</h4>
+    <h5>Recommended route: <span class="recommended">SF-MUNI: N-Inbound</h5>
+    <a href="#"><span class="glyphicon glyphicon-volume-off"></span> Clear</a>
+  </div>
+  <audio src="/assets/alarm.mp3" loop></audio>
+  <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+  <% if (process.env.build === 'production') { %>
+  <script src="/dist/bundle.min.js"></script>
+  <% } else { %>
+  <script src="/dist/bundle.js"></script>
+  <% } %>
+</body>
+</html>
