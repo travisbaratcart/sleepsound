@@ -81,10 +81,12 @@ export default class RouteForm extends React.Component {
     return (
       <div className="routeForm">
       <p>How would you get to work?</p>
-      <select onChange={this.updateAgency.bind(this)}>
+      <div className="agency-wrapper">
+      <select className="agency" onChange={this.updateAgency.bind(this)}>
       <option value="SF-MUNI">MUNI</option>
       <option value="BART">BART</option>
       </select>
+      </div>
       {lineSelect}
       {directionSelect}
       <p>What time would you ideally wake up?</p>

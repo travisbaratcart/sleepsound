@@ -37,7 +37,9 @@ export default class AlarmForm extends React.Component {
       <div>
         {this.state.alarm.map(this.renderRouteForm.bind(this))}
         <a href="#" onClick={this.addRoute.bind(this)}><span className="glyphicon glyphicon-plus"></span> Add Route</a>
-        <a href="#" className="save-route" onClick={this.saveAlarm.bind(this)}><span className="glyphicon glyphicon-bell"></span> Save Alarm</a>
+        <div className="save-wrapper">
+        <a href="#" className="save-route" onClick={this.saveAlarm.bind(this)}><span className="glyphicon glyphicon-bell"></span>Save Alarm</a>
+        </div>
       </div>
     );
   }

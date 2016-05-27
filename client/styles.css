@@ -4,20 +4,23 @@ h1, h2, h3, h4, h5, p, div {
   line-height: 150%;
 }
 
+body {
+  font-size: 16px;
+}
+
 h1 {
   margin: 20px 0 -5px;
-
-  font-size: 54px;
+  font-size: 3.375em;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 1.125em;
   margin-bottom: 30px;
 }
 
 h4 {
   margin-bottom: 10px;
-  font-size: 42px;
+  font-size: 2.625em;
 }
 
 #modal h4 {
@@ -26,7 +29,7 @@ h4 {
 
 h5 {
   margin-bottom: 30px;
-  font-size: 22px;
+  font-size: 1.375em;
 }
 
 p, input, select {
@@ -35,17 +38,18 @@ p, input, select {
 }
 
 select {
-  /*background-color: black; */
-  /*color: white; */
-  /*-webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 5px;*/
-  text-indent: 8px;
-  height: 30px;
+  text-indent: 0.5em;
+  height: 2em;
   background-color: white;
   color: black;
-  font-size: 14px;
+}
+
+.agency-wrapper {
+  margin-bottom: 0.5em;
+}
+
+select.agency {
+  width: 8em;
 }
 
 body {
@@ -62,16 +66,16 @@ body {
 input {
   color: #333;
   text-indent: 5px;
-  font-size: 14px;
+}
+
+.save-wrapper {
+  margin: 2em;
 }
 
 a.save-route {
-  display: block;
-  padding: 10px;
+  padding: 0.625em;
   color: white;
-  margin: 20px auto 30px;
   background-color: orange;
-  width: 150px;
 }
 
 a:hover, a:focus, a:visited {
@@ -166,6 +170,21 @@ a:hover, a:focus, a:visited {
   display: inline-block;
   padding: 10px 20px;
   background-color: orange;
-  font-size: 20px;
+  font-size: 1.25em;
   margin-bottom: 20px;
+}
+
+@media only screen and (max-device-width: 768px) {
+  body {
+    font-size: 32px;
+  }
+}
+
+@media only screen and (max-device-width: 700px) {
+  body {
+    font-size: 40px;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
 }
